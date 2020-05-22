@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+    </style>
+  <title>Calculator</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="display"></div>
+    <button id="num">1</button><button id="num">2</button><button id="num">3</button>      <button id="operator">+</button><br>
+    <button id="num">4</button><button id="num">5</button><button id="num">6</button>      <button id="operator">-</button><br>
+    <button id="num">7</button><button id="num">8</button><button id="num">9</button>      <button id="operator">*</button><br>
+    <button id="decimal">.</button> <button id="num">0</button></button><button id="equal">=</button></button>       <button id="operator">/</button><br>
+                        <button id="clear">Clear</button>                        <button id="bcksp"> bcksp</button>
+
+
+  <script>
+      let buttons = document.querySelectorAll("button")
+      let calcDisplay = document.getElementById ("display")
+      let a="", b="", op, stat,display,history, consecutive, result;
+      buttons.forEach((btn)=>{
+          btn.addEventListener("click",(e) => {
+              
+            if (e.target.id=="num"){
+                  if(op){
+                    b+=e.target.innerText
+                    display = b
+                    stat = "b"
+                  }
+                  else{
+                    a+=e.target.innerText
+                  display =a
+                  stat = "a"
+                  }
+                  
+              }
+
+            // if (e.target.id=="operator"){
+            //       op = e.target.innerText
+            //       //display=op
+            //       b=""
+            //   }  
+              if (e.target.id=="operator"){
+               if(stat=="b"){
+                 //keep stringing operators and operands
+                 a= Math.round(operator(parseInt(a),op,parseInt(b)))
+                 b=""
+                 display = a
+                }
+                op = e.target.innerText
+               stat= "op"
+               b=""
+              }
+
+    
+            if ((e.target.id=="equal" && (op) && (a) && (b))||(consecutive)){
+                result = Math.round(operator(parseInt(a),op,parseInt(b)))
+                display = result
+                a=result //continue calculation while pressing equal
+                stat= "results"
+                
+
+            }
+
+            if (e.target.id=="bcksp"){
+              switch (stat){
+                case "b":
+                  b=""
+                  display =b
+                  break;
+                case "a":
+                case "op":
+                  a="";
+                  display = a
+                  break;                  
+              }
+                
+            }
+
+            if (e.target.id=="clear"){
+              a="" , b="" , op="", display =0
+                
+            }
+
+            console.log (a,op,b)
+            calcDisplay.innerText = display
+            console.log(history)
+            
+          })
+          return (a,op,b)
+      })
+      console.log(display)
+
+    function sum(a,b){
+        //console.log(a+b)
+        return a+b;
+    }
+
+    function multiply(a,b){
+      return a*b;
+    }
+
+    function divide(a,b){
+      return b==0? "Error":a/b
+    }
+    
+    function subtract(a,b){
+      return a-b;
+    }
+    function operator(a,op,b){
+      switch (op){
+        case "+" :
+          return sum(a,b);
+          break;
+        
+        case "-" :
+          return subtract(a,b);
+          break;
+
+        case "*" :
+          return multiply(a,b);
+          break;
+
+        case "/" :
+          return divide(a,b);
+          break;
+      }
+    }
+    
+    
+
+
+  </script>
+</body>
+
+</html>
